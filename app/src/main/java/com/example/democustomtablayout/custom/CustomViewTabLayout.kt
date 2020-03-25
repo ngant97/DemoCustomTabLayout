@@ -39,8 +39,9 @@ class CustomViewTabLayout(context: Context, attrs: AttributeSet?) : View(context
     var currentFocus = 0f
     var pressedDownTime = 0L
     var witdhScreen = 0
+    val defaultTimeCheckClick =200
     var horizontalScrollView: CustomMyTabLayout? = null
-    var mListener:OnChangeTabIO?=null
+    var mListener: OnChangeTabIO? = null
 
     init {
         textPaint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -118,31 +119,25 @@ class CustomViewTabLayout(context: Context, attrs: AttributeSet?) : View(context
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val ex = event.x
-        if (event.action == MotionEvent.ACTION_DOWN) {
-            pressedDownTime = System.currentTimeMillis()
-            saveX = ex
-            for (i in titles.indices) {
-                if (saveX < titleps[i]) {
-                    break
-                }
-                if (saveX > 0) {
-                    //Do nothing
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                pressedDownTime = System.currentTimeMillis()
+                saveX = ex
+            }
+            MotionEvent.ACTION_UP -> {
+                if(System.currentTimeMillis() - pressedDownTime < defaultTimeCheckClick
+                    && saveX > ex - 15
+                    && saveX < ex + 15){
+                    for (i in titles.indices) {
+                        if (ex > titleps[i] && ex < titleps[i] + titlews[i]) {
+                            mListener?.tabSelected(i)
+                            startAnimation(i)
+                            break
+                        }
+                    }
                 }
             }
         }
-
-        if (event.action == MotionEvent.ACTION_UP
-            && System.currentTimeMillis() - pressedDownTime < 200
-            && saveX > ex - 15 && saveX < ex + 15) {
-            for (i in titles.indices) {
-                if (ex > titleps[i] && ex < titleps[i] + titlews[i]) {
-                    mListener?.tabSelected(i)
-                    startAnimation(i)
-                }
-
-            }
-        }
-
         return super.onTouchEvent(event)
     }
 
@@ -255,9 +250,11 @@ class CustomViewTabLayout(context: Context, attrs: AttributeSet?) : View(context
         this.titles.addAll(titles)
         invalidate()
     }
-    fun setListenter(listener :OnChangeTabIO){
-        mListener =listener
+
+    fun setListenter(listener: OnChangeTabIO) {
+        mListener = listener
     }
+
     interface OnChangeTabIO {
         fun tabSelected(pos: Int)
     }

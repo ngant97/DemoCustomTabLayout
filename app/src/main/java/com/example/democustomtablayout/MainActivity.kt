@@ -10,11 +10,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         pagerAdapter = RkPagerAdapter(supportFragmentManager)
-        pagerAdapter.addFragment(BlankFragment(), "Dành cho bạn")
-        pagerAdapter.addFragment(BlankFragment(), "Đang theo dõi")
-        pagerAdapter.addFragment(BlankFragment(), "Làm đẹp")
-        pagerAdapter.addFragment(BlankFragment(), "Đang yêu")
-        pagerAdapter.addFragment(BlankFragment(), "Thiết kế")
+        pagerAdapter.addFragment(BlankFragment(), getString(R.string.for_you))
+        pagerAdapter.addFragment(BlankFragment(), getString(R.string.follow))
+        pagerAdapter.addFragment(BlankFragment(), getString(R.string.beauty))
+        pagerAdapter.addFragment(BlankFragment(), getString(R.string.love))
+        pagerAdapter.addFragment(BlankFragment(), getString(R.string.design))
 
         viewPager.adapter = pagerAdapter
         tabLayout.setupWithViewPager(viewPager)

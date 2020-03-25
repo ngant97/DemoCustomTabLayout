@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">DemoCustomTabLayout</string>
+    <string name="for_you">Dành cho bạn</string>
+    <string name="follow">Đang theo dõi</string>
+    <string name="beauty">Làm đẹp</string>
+    <string name="love">Đang yêu</string>
+    <string name="design">Thiết kế</string>
 </resources>
